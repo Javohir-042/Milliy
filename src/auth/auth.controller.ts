@@ -11,20 +11,17 @@ import { SigninAdminDto } from '../admin/dto/signin.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) { }
 
-  // signup route - foydalanuvchi ro‘yxatdan o‘tishi
   @Post("signup")
   signup(@Body() createAdminDto: CreateAdminDto) {
     return this.authService.signup(createAdminDto);
   }
 
-  // signin route - foydalanuvchi tizimga kirish
   @Post('signin')
   @HttpCode(HttpStatus.OK)
   signin(@Body() signinAdminDto: SigninAdminDto, @Res({ passthrough: true }) res: Response) {
     return this.authService.signin(signinAdminDto, res);
   }
 
-  // signOut route - foydalanuvchi tokenni bekor qilish
   @HttpCode(200)
   @Post("signOut")
   signOut(
@@ -34,7 +31,6 @@ export class AuthController {
     return this.authService.signOut(refreshToken, res);
   }
 
-  // refresh route - refresh token bilan yangi token olish
   @HttpCode(200)
   @Post(":id/refresh")
   refresh(

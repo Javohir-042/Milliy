@@ -13,6 +13,13 @@ export class AdminService {
   }
 
   async create(createAdminDto: CreateAdminDto) {
+
+    const existingAdmin = await this.adminSchema.findOne({ email: createAdminDto.email })
+
+    if(existingAdmin){
+      throw new BadRequestException("Bu email allaqachon ro'yxatdan o'tgan")
+    }
+
     const hashedPassword = await bcrypt.hash(createAdminDto.password, 7)
     return this.adminSchema.create({
       ...createAdminDto,

@@ -1,6 +1,7 @@
 
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Role } from '../../common/enum/user.enum';
 
 export type AdminDocument = HydratedDocument<Admin>;
 
@@ -24,6 +25,9 @@ export class Admin {
 
     @Prop({ default: false })
     is_creator: boolean
+
+    @Prop({ enum: Role, default: Role.ADMIN })
+    role: Role;
 
 
     @Prop()

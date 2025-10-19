@@ -18,7 +18,8 @@ export class AuthService {
         const payload = {
             id: admin._id,
             email: admin.email,
-            is_active: admin.is_active,
+            role: admin.role,  
+            is_active: admin.is_active, 
             is_creator: admin.is_creator,
         };
 
