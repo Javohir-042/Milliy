@@ -9,8 +9,8 @@ import bcrypt from "bcrypt";
 @Injectable()
 export class AdminService {
   constructor(
-    @InjectModel(Admin.name) private readonly adminSchema: Model<Admin>) {
-  }
+    @InjectModel(Admin.name) private readonly adminSchema: Model<Admin>
+  ) { }
 
   async create(createAdminDto: CreateAdminDto) {
 
