@@ -11,3 +11,16 @@ export enum Gender {
     FEMALE = 'FEMALE',
     OTHER = 'OTHER',
 }
+
+
+
+export enum GroupEnum {
+    ACTIVE = 'ACTIVE',
+    INACTIVE = 'INACTIVE',
+    ARCHIVED = 'ARCHIVED'
+}
+
+export enum ChenelEnum {
+    PRIVATE = 'PRIVATE',
+    PUBLIC = 'PUBLIC'
+}

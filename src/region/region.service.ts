@@ -1,34 +1,61 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRegionDto } from './dto/create-region.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Region } from './schema/region.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class RegionService {
   constructor(
-    @InjectModel(Region.name) private readonly regionSchema: Model<Region>
+    @InjectModel(Region.name) private readonly regionSchema: Model<Region>,
   ) { }
 
-
-  create(createRegionDto: CreateRegionDto) {
-    return this.regionSchema.create(createRegionDto);
+  async create(createRegionDto: CreateRegionDto) {
+    const region = await this.regionSchema.create(createRegionDto);
+    return region;
   }
 
-  findAll() {
-    return this.regionSchema.find().populate("districts", "name -_id");
+  async findAll() {
+    return this.regionSchema.find().populate('districts', 'name -_id');
   }
 
-  findOne(id: string) {
-    return this.regionSchema.findById(id).populate("districts");
+  async findOne(id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException("Region ID noto'g'ri formatda");
+    }
+
+    const region = await this.regionSchema.findById(id).populate('districts', 'name -_id');
+    if (!region) {
+      throw new NotFoundException("Bunday region topilmadi");
+    }
+
+    return region;
   }
 
-  update(id: string, updateRegionDto: UpdateRegionDto) {
-    return `This action updates a #${id} region`;
+  async update(id: string, updateRegionDto: UpdateRegionDto) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException("Region ID noto'g'ri formatda");
+    }
+
+    const updatedRegion = await this.regionSchema.findByIdAndUpdate(id, updateRegionDto, { new: true });
+    if (!updatedRegion) {
+      throw new NotFoundException("Bunday region topilmadi");
+    }
+
+    return updatedRegion;
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} region`;
+  async remove(id: string) {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException("Region ID noto'g'ri formatda");
+    }
+
+    const deletedRegion = await this.regionSchema.findByIdAndDelete(id);
+    if (!deletedRegion) {
+      throw new NotFoundException("Bunday region topilmadi");
+    }
+
+    return { message: `Region ID muvaffaqiyatli o'chirildi` };
   }
 }

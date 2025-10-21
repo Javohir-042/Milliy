@@ -6,6 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { RegionModule } from './region/region.module';
 import { DistrictModule } from './district/district.module';
+import { GroupModule } from './group/group.module';
+import { GroupUsersModule } from './group-users/group-users.module';
+import { RelationModule } from './relation/relation.module';
+import { ChatModule } from './chat/chat.module';
+import { ChenelModule } from './chenel/chenel.module';
 
 @Module({
   imports: [
@@ -16,6 +21,11 @@ import { DistrictModule } from './district/district.module';
     UsersModule,
     RegionModule,
     DistrictModule,
+    GroupModule,
+    GroupUsersModule,
+    RelationModule,
+    ChatModule,
+    ChenelModule,
   ],
   controllers: [],
   providers: [],

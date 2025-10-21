@@ -1,15 +1,20 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { Gender } from '../../common/enum/user.enum';
+import { GroupUser } from '../../group-users/schema/group-user.schema';
+import { ref } from 'process';
+import { Relation } from '../../relation/schema/relation.schema';
+import { Chat } from 'telegraf/types';
+import { Chenel } from '../../chenel/schema/chenel.schema';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema({ versionKey: false, timestamps: true })
 export class User {
-    @Prop({ required: true})
+    @Prop({ required: true })
     name: string;
 
-    @Prop({ required: true})
+    @Prop({ required: true })
     user_name: string;
 
     @Prop({ required: true })
@@ -27,7 +32,7 @@ export class User {
     @Prop({ required: true, unique: true })
     email: string;
 
-    @Prop({ required: true})
+    @Prop({ required: true })
     password: string;
 
     @Prop({ required: true })
@@ -41,6 +46,62 @@ export class User {
 
     @Prop({ default: null })
     refresh_token?: string;
+
+
+    @Prop({
+        type: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "GroupUser"
+        }]
+    })
+    groupUser: GroupUser[];
+
+
+    @Prop({
+        type: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Relation"
+        }]
+    })
+    user_1: Relation[];
+
+    @Prop({
+        type: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Relation"
+        }]
+    })
+    user_2: Relation[];
+
+
+    @Prop({
+        type: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Chat"
+        }]
+    })
+    user_1Id: Chat[];
+
+
+    @Prop({
+        type: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Chat"
+        }]
+    })
+    user_2Id: Chat[];
+
+
+    @Prop({
+        type: [{
+            type: mongoose.Schema.ObjectId,
+            ref: "Chenel"
+        }]
+    })
+    chenel_Id: Chenel[];
+
+    
+
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
